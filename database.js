@@ -14,8 +14,18 @@ var knex = require('knex')({
 var bookshelf = require('bookshelf')(knex);
 
 var User = bookshelf.Model.extend({
-  tableName: 'users',
-  // hasTimestamps: true,
+  tableName: 'users'
 });
+
+var Power = bookshelf.Model.extend({
+  tableName: 'power'
+})
+
+var Heroes = bookshelf.Model.extend({
+  tableName: 'heroes',
+  power: function() {
+    return this.hasOne(Power);
+  }
+})
 
 module.exports.User = User;
