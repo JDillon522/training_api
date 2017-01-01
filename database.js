@@ -19,13 +19,13 @@ var User = bookshelf.Model.extend({
 
 var Power = bookshelf.Model.extend({
   tableName: 'power'
-})
+});
 
 var Heroes = bookshelf.Model.extend({
   tableName: 'heroes',
   power: function() {
     return this.hasOne(Power);
   }
-})
+});
 
 module.exports.User = User;
