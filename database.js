@@ -12,9 +12,15 @@ var knex = require('knex')({
   }
 });
 var bookshelf = require('bookshelf')(knex);
+bookshelf.plugin('registry');
+
 
 var User = bookshelf.Model.extend({
   tableName: 'users'
+});
+
+var Users = bookshelf.Collection.extend({
+  model: User
 });
 
 var Power = bookshelf.Model.extend({
@@ -28,5 +34,6 @@ var Heroes = bookshelf.Model.extend({
   }
 });
 
-module.exports.User = User;
-module.exports.Heroes = Heroes;
+module.exports.User = User.forge();
+module.exports.Users = Users.forge();
+module.exports.Heroes = Heroes.forge();
