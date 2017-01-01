@@ -1,12 +1,35 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../database');
+var client = require('../database');
 
+
+
+console.log(client);
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  fetchAllUsers(function(result, status) {
-    return res.send(result);
-  });
+
+
+  // client.connect(function(err, client, done) {
+  //   if(err) {
+  //     return console.error('error fetching client from pool', err);
+  //   }
+    client.query('SELECT * FROM users', function(err, result) {
+      //call `done()` to release the client back to the pool
+      // done();
+
+      if(err) {
+        console.error('error running query', err);
+        res.status(400).send(err).end();
+
+      }
+      //output: 1
+      res.status(200).send(result).end();
+    });
+  // });
+
+  // fetchAllUsers(function(result, status) {
+  //   return res.send(result);
+  // });
 });
 
 router.get('/:user_id', function(req, res, next) {
