@@ -29,3 +29,4 @@ var Heroes = bookshelf.Model.extend({
 });
 
 module.exports.User = User;
+module.exports.Heroes = Heroes;

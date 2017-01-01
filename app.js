@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var users = require('./routes/users');
+var heroes = require('./routes/heroes');
 
 var debug = require('debug')('training-api:server');
 var app = express();
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/users', users);
+app.use('/heroes', heroes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
