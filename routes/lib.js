@@ -14,18 +14,18 @@ let selectAllData = (tableName, callback) => {
   });
 };
 
-var selectData = (tableName, id, callback) => {
+let selectData = (tableName, id, callback) => {
   db.query('SELECT * FROM ' + tableName + ' WHERE id = ' + id, (error, result) => {
     if (error) {
       console.error(error);
       return callback(new Error(error), 400);
     }
 
-    return callback(result.rows, 200);
+    return callback(result.rows[0], 200);
   });
 };
 
-var addData = (tableName, data, callback) => {
+let addData = (tableName, data, callback) => {
   let queryData = {};
   let columns = '';
   let values = '';
