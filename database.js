@@ -10,9 +10,12 @@ var config = {
   // idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
   ssl: true
 }
-var pool = new Pool(config).connect();
+var pool = new Pool(config);
 
-module.exports.client = pool;
+// module.exports.client = pool;
+module.exports.query = (text, values) => {
+  return pool.query(text, values);
+};
 //
 // var knex = require('knex')({
 //   client: 'pg',

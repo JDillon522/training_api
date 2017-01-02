@@ -1,10 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var client = require('../database');
+var router = require('express').Router();
+var db = require('../database');
 
 
-
-console.log(client);
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
@@ -13,7 +10,7 @@ router.get('/', function(req, res, next) {
   //   if(err) {
   //     return console.error('error fetching client from pool', err);
   //   }
-    client.query('SELECT * FROM users', function(err, result) {
+    db.query('SELECT * FROM users', function(err, result) {
       //call `done()` to release the client back to the pool
       // done();
 
