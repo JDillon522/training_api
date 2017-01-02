@@ -4,29 +4,9 @@ var db = require('../database');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-
-
-  // client.connect(function(err, client, done) {
-  //   if(err) {
-  //     return console.error('error fetching client from pool', err);
-  //   }
-    db.query('SELECT * FROM users', function(err, result) {
-      //call `done()` to release the client back to the pool
-      // done();
-
-      if(err) {
-        console.error('error running query', err);
-        res.status(400).send(err).end();
-
-      }
-      //output: 1
-      res.status(200).send(result).end();
-    });
-  // });
-
-  // fetchAllUsers(function(result, status) {
-  //   return res.send(result);
-  // });
+  fetchAllUsers(function(result, status) {
+    return res.status(status).send(result).end();
+  });
 });
 
 router.get('/:user_id', function(req, res, next) {
@@ -53,36 +33,52 @@ router.delete('/:user_id', function(req, res, next) {
 });
 
 var fetchAllUsers = function(callback) {
-  db.Users.fetch().then( function (success) {
-    return callback(success, 200);
-  }, function (error) {
-    return callback(new Error(error), 400);
+  db.query('SELECT * FROM users', function(error, result) {
+    if (error) {
+      return callback(new Error(error), 400);
+    }
+
+    return callback(result.rows, 200);
   });
 };
 
 var fetchUser = function(id, callback) {
-  db.User.query({where: {'id' : id}}).fetch().then( function (success) {
-    return callback(success, 200);
-  }, function (error) {
-    return callback(new Error(error), 400);
+  db.query('SELECT * FROM users WHERE id = ' + id, function(error, result) {
+    if (error) {
+      return callback(new Error(error), 400);
+    }
+
+    return callback(result.rows, 200);
   });
 };
 
 var addUser = function(user, callback) {
-  db.User.set(user).save(null, {method: 'insert'}).then(function (success) {
-    return callback(success, 200);
-  }, function (error) {
-    return callback(new Error(error), 400);
+  var query = 'INSERT INTO users (first_name, last_name, email) VALUES (\'' +
+    user.first_name + '\', \'' +
+    user.last_name + '\', \'' +
+    user.email + '\')';
+
+  db.query(query, function(error, result) {
+    if (error) {
+      return callback(new Error(error), 400);
+    }
+
+    return callback(result.rows, 200);
   });
 }
 
 var deleteUser = function(id, callback) {
-  db.User.query({where: {'id' : id}}).destroy().then( function (success) {
-    return callback(success, 200);
-  }, function (error) {
-    return callback(new Error(error), 400);
+  var query = 'DELETE FROM users WHERE id = ' + id;
+
+  db.query(query, function(error, result) {
+    if (error) {
+      return callback(new Error(error), 400);
+    }
+
+    return callback(result, 200);
   });
 };
+
 // Lib methods
 module.exports.users = {};
 module.exports.users.fetchAllUsers = fetchAllUsers;
