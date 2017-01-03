@@ -27,6 +27,18 @@ router.post('/', function(req, res, next) {
   });
 });
 
+router.put('/:hero_id', function(req, res, next) {
+  var hero = {
+    name: req.body.name,
+    age: parseInt(req.body.age, 10),
+    power_id: parseInt(req.body.power_id, 10)
+  };
+
+  lib.updateData('heroes', req.params.hero_id, hero, function(result, status) {
+    return res.status(status).send(result).end();
+  });
+});
+
 router.delete('/:hero_id', function(req, res, next) {
   lib.deleteData('heroes', req.params.hero_id, function(result, status) {
     return res.status(status).send(result).end();

@@ -26,12 +26,10 @@ let selectData = (tableName, id, callback) => {
 };
 
 let addData = (tableName, data, callback) => {
-  let queryData = {};
   let columns = '';
   let values = '';
 
   for (let key in data) {
-    queryData[key] = data[key];
     columns += ', ' + key;
     values += '\', \'' + data[key];
   };
@@ -52,7 +50,29 @@ let addData = (tableName, data, callback) => {
 
     return callback(result, 200);
   });
+};
+
+let updateData = (tableName, id, data, callback) => {
+  let updateString = '';
+
+  for (let key in data) {
+    updateString += ', ' + key + ' = \'' + data[key] + '\'';
+  };
+
+  updateString = updateString.replace(/^,\W/, '');
+
+  let query = 'UPDATE ' + tableName + ' SET ' + updateString + ' WHERE id = ' + id;
+console.log(query)
+  db.query(query, (error, result) => {
+    if (error) {
+      console.error(error);
+      return callback(new Error(error), 400);
+    }
+
+    return callback(result, 200);
+  });
 }
+
 
 let deleteData = (tableName, id, callback) => {
   let query = 'DELETE FROM ' + tableName + ' WHERE id = ' + id;
@@ -72,3 +92,4 @@ module.exports.selectAllData = selectAllData;
 module.exports.selectData = selectData;
 module.exports.addData = addData;
 module.exports.deleteData = deleteData;
+module.exports.updateData = updateData;
