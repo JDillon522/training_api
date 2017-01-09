@@ -13,15 +13,19 @@ var debug = require('debug')('training-api:server');
 var app = express();
 var http = require('http');
 
+var cors = require('cors');
 /**
  * Get port from environment and store in Express.
  */
 
 var port = process.env.PORT || '3000';
+
+app.use(cors());
 app.set('port', port);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 
 app.use('/users', users);
 app.use('/heroes', heroes);

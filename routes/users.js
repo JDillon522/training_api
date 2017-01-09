@@ -3,7 +3,9 @@ var lib = require('./lib');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  process.stdout.write('---- GET /users ----');
   lib.selectAllData('users', function(result, status) {
+    process.stdout.write(JSON.stringify(result));
     return res.status(status).send(result).end();
   });
 });

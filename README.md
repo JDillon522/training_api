@@ -42,5 +42,15 @@ Adds a user to the database. Submit data according to the following schema:
 }
 ```
 
+### PUT `/users/:user_id`
+Updates a user in the database. Submit data according to the following schema:
+```
+{
+  "first_name": "Ragnar",
+  "last_name": "Lothbrok",
+  "email": "king@gmail.com"
+}
+```
+
 ### DELETE `/users/:user_id`
 Deletes a user in the database by its id.
