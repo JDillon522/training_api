@@ -15,16 +15,16 @@ var pool = new Pool(config);
 pool.on('error', function(error, client) {
   // handle this in the same way you would treat process.on('uncaughtException')
   // it is supplied the error as well as the idle client which received the error
-  console.error('Pool Error', error);
+  console.error('\nPool Error', error);
 });
 
 
 pool.on('connect', client => {
-  console.log('Pool Connect');
+  console.log('\nPool Connect');
 })
 
 pool.on('acquire', function (client) {
-  console.log('Pool Aquire');
+  console.log('\nPool Aquire');
 })
 
 
